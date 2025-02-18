@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Nhóm route cho tài khoản
-Route::group([], function () {
+Route::group(['prefix' => 'account'], function () {
 
     // Routes dành cho khách (chưa đăng nhập)
     Route::group(['middleware' => 'guest'], function () {
-        Route::get('/account/register', [AccountController::class, 'registration'])->name('account.registration');
-        Route::post('/account/process-register', [AccountController::class, 'processRegistration'])->name('account.processRegistration');
-        Route::get('/account/login', [AccountController::class, 'login'])->name('account.login');
-        Route::post('/account/authenticate', [AccountController::class, 'authenticate'])->name('account.authenticate');
+        Route::get('/register', [AccountController::class, 'registration'])->name('account.registration');
+        Route::post('/process-register', [AccountController::class, 'processRegistration'])->name('account.processRegistration');
+        Route::get('/login', [AccountController::class, 'login'])->name('account.login');
+        Route::post('/authenticate', [AccountController::class, 'authenticate'])->name('account.authenticate');
     });
 
     // Routes dành cho người dùng đã đăng nhập
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
-        Route::post('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
+        Route::group(['middleware' => 'auth'], function () {
+        Route::get('/update-profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
+        Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
     });
 });
